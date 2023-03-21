@@ -1,0 +1,6 @@
+# Connection secrets.
+kubernetes/publisher/secret/
+kubernetes/subscriber/secret/
+
+# Monitoring applications.
+kubernetes/monitoring/grafana/dashboard/vendor/
