@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: publisher
+  namespace: publisher
+  labels:
+    app: pub
+spec:
+  selector:
+    app: pub
+  type: LoadBalancer
+  ports:
+  - port: 8080
+    targetPort: 8080
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: publisher
+  namespace: publisher
+  labels:
+    app: pub
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pub
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: pub
+    spec:
+      containers:
+      - name: pub
+        image: bucket98/publisher:demo-03
+        env:
+        - name: KAFKA_HOST
+          valueFrom:
+            secretKeyRef:
+              name: cloud-secret
+              key: kafka_host.txt
+        - name: SASL_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: cloud-secret
+              key: cloud_user.txt
+        - name: SASL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: cloud-secret
+              key: cloud_passwd.txt
+        - name: TOPIC
+          value: "topic_1"
+        - name: LINGER_MS
+          value: "0"
+        - name: BATCH_SIZE
+          value: "16384"
+        ports:
+        - containerPort: 8080

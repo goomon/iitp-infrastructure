@@ -1,6 +1,6 @@
-# Docker environment
+# Docker Environment
 
-Base docker-based architecture is as follows:
+Docker-based architecture is as follows:
 
 <p text-align="center">
   <img alt="img.png" src="img/structure.png" width="700"/>

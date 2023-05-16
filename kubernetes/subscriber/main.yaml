@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: subscriber
+  namespace: subscriber
+  labels:
+    app: sub
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sub
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: sub
+    spec:
+      containers:
+      - name: subscriber
+        image: bucket98/subscriber:demo-03
+        env:
+        - name: KAFKA_HOST
+          valueFrom:
+            secretKeyRef:
+              name: cloud-secret
+              key: kafka_host.txt
+        - name: SASL_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: cloud-secret
+              key: cloud_user.txt
+        - name: SASL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: cloud-secret
+              key: cloud_passwd.txt
+        - name: TOPIC
+          value: "topic_1"
+        - name: CONSUMER_GROUP_ID
+          value: "test_group_id_1"
+        - name: CONSUMER_INSTANCE_ID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POSTGRES_USER
+          value: "postgres"
+        - name: POSTGRES_PASSWORD
+          value: "postgres"
+        - name: POSTGRES_PORT
+          value: "5432"
+        - name: POSTGRES_HOST
+          value: "db-internal.analysis"
+        - name: MAX_POLL_MS
+          value: ""
+        - name: MAX_POLL_RECORDS
+          value: ""
+        - name: POLL_MS
+          value: ""
+        - name: FLUSH_TIMEOUT
+          value: "60"
+        command: ["python", "main.py"]
