@@ -5,3 +5,9 @@ kubernetes/secret/
 
 # Monitoring applications.
 kubernetes/monitoring/grafana/dashboard/vendor/
+
+# Terraform
+**/.terraform
+**/*.tfstate
+**/*.backup
+**/*.hcl
