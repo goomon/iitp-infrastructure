@@ -13,16 +13,15 @@ docker-compose -f <target-file> up [-d]
 * Target file
 
     You should execute the commands below in `docker/` directory. Otherwise, volume files are created in project root directory.
-    * `docker/kafka-single.yml`
+    * `kafka-single.yml`
   
         This is for single kafka broker and single zookeeper environment.
         ```shell
-      $ cd docker/
-      $ pwd # <your path>/python-kafka/docker
+      $ pwd # <your path>/iitp_infra/docker
       $ docker-compose -f kafka-single.yml up
         ```
 
-    * `docker/kafka-cluster.yml`
+    * `kafka-cluster.yml`
     
         This is for kafka basic cluster environment with 3 broker and 3 zookeepers.
       ```shell
@@ -57,7 +56,7 @@ If the cluster setting is not working, it might be due to those two reasons.
     
     I recommend you to remove shared volume file and try it again.
     ```shell
-   $ rm -rf docker/kafka docker/zookeeper
+   $ rm -rf kafka docker/zookeeper
    $ docker volume prune
    $ docker-compose -f <traget-file> up
    ```
